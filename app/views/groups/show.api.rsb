@@ -1,0 +1,45 @@
+# This is a View when Group is accessed through a REST API.
+# When accessing with 'include=users,user_cf', custom fields are added to response.
+
+api.group do
+  api.id         @group.id
+  api.name       @group.lastname
+  api.builtin    @group.builtin_type if @group.builtin_type
+
+  render_api_custom_values @group.visible_custom_field_values, api
+
+  api.array :users do
+    @group.users.each do |user|
+      groups_user_indexed = nil
+      if include_in_api_response?('user_cf')
+        groups_user_indexed = GroupsUserIndexed.find_by_group_id_and_user_id(@group.id, user.id)
+      end
+      
+      if groups_user_indexed.present?
+        api.user :id => user.id, :name => user.name do
+          render_api_custom_values groups_user_indexed.visible_custom_field_values, api
+        end
+      else
+        api.user :id => user.id, :name => user.name
+      end
+    end
+  end if include_in_api_response?('users') && !@group.builtin?
+
+  api.array :memberships do
+    @group.memberships.preload(:roles, :project).each do |membership|
+      api.membership do
+        api.id membership.id
+        api.project :id => membership.project.id, :name => membership.project.name
+        api.array :roles do
+          membership.member_roles.each do |member_role|
+            if member_role.role
+              attrs = {:id => member_role.role.id, :name => member_role.role.name}
+              attrs.merge!(:inherited => true) if member_role.inherited_from.present?
+              api.role attrs
+            end
+          end
+        end
+      end if membership.project
+    end
+  end if include_in_api_response?('memberships')
+end

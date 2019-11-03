@@ -1,0 +1,14 @@
+// -------------------------------------------------------------------
+// This js is for displaying new user dialogs.
+// I changed this file to display an error message when adding a user.
+// -------------------------------------------------------------------
+
+// Original content
+$('#ajax-modal').html('<%= escape_javascript(render :partial => 'groups/new_users_modal') %>');
+showModal('ajax-modal', '700px');
+
+// Added content
+$('#ajax-modal').off('ajax:error'); // If "off" is not executed, the event is added many times.
+$('#ajax-modal').on("ajax:error", function(e, xhr, status, error) {
+  $('#error-message').html(xhr.responseText)
+});

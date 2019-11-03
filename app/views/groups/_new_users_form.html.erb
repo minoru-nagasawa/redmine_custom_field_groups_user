@@ -1,0 +1,25 @@
+<%# ------------------------------------------------------- %>
+<%# This dialog is displayed when adding a user to a group. %>
+<%# ------------------------------------------------------- %>
+<%# Added content for error message%>
+<div id="error-message"></div>
+
+<%# Original content %>
+<fieldset class="box">
+  <legend><%= label_tag "user_search", l(:label_user_search) %></legend>
+  <p><%= text_field_tag 'user_search', nil %></p>
+  <%= javascript_tag "observeSearchfield('user_search', null, '#{ escape_javascript autocomplete_for_user_group_path(@group) }')" %>
+
+  <div id="users">
+    <%= render_principals_for_new_group_users(@group) %>
+  </div>
+</fieldset>
+
+<%# Added content for custom field %>
+<fieldset class="box">
+  <legend><%= label_tag "custom_field", l(:label_custom_field_plural) %></legend>
+  <% GroupsUserIndexed.new.custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :groups_user_indexed, value %></p>
+  <% end %>
+</fieldset>
+  

@@ -1,0 +1,38 @@
+<%# ------------------------------------------------------------- %>
+<%# This is a view that displays the user list of the group.      %>
+<%# I've changed it so that each user's custom field is displayed %>
+<%# and can be edited and saved.                                  %>
+<%# ------------------------------------------------------------- %>
+<p><%= link_to l(:label_user_new), new_group_users_path(@group), :remote => true, :class => "icon icon-add" %></p>
+
+<% if @group.users.any? %>
+  <%= form_for @group, :url => {action: :edit_users}, method: :post do %>
+    <table class="list users">
+      <thead><tr>
+        <th><%= l(:label_user) %></th>
+        <% GroupsUserIndexed.new.custom_field_values.each do |value| %>
+          <th><%= custom_field_label_tag "label", value %></th>
+        <% end %>
+        <th style="width:15%"></th>
+      </tr></thead>
+      <tbody>
+      <% @group.users.sort.each do |user| %>
+        <tr id="user-<%= user.id %>">
+          <td class="name"><%= link_to_user user %></td>
+          <% groups_user_indexed = GroupsUserIndexed.where(group_id: @group.id, user_id: user.id).first_or_create %>
+          <% groups_user_indexed.custom_field_values.each do |value| %>
+            <td><%= custom_field_tag "groups_user_indexed[#{user.id}]", value %></td>
+          <% end %>
+          <td class="buttons">
+            <%= delete_link group_user_path(@group, :user_id => user), :remote => true %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= submit_tag l(:button_save) %>
+  <% end %>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
