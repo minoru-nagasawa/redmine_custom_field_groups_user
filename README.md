@@ -13,7 +13,7 @@ To get custom field with REST API, add "user_cf" to parameter.
 ex. No Custom Field  
 ![5 No Custom Field](5-rest-no-cf.png)  
 
-ex. With Custom Field
+ex. With Custom Field  
 ![6 With Custom Field](6-rest-with-cf.png)
 
 # Compatibility
