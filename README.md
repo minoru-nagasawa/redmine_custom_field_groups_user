@@ -9,7 +9,7 @@ You can set this custom field at New user dialog in group view.
 Then you can edit this custom field at Users tab in group view.  
 ![4 Edit Custom Field](4-edit-customfield.png)
 
-To get custom field with REST API, add "user_cf" to parameter.  
+To get custom field with REST API, add "?include=users,user_cf" to parameter.  
 ex. No Custom Field  
 ![5 No Custom Field](5-rest-no-cf.png)  
 
