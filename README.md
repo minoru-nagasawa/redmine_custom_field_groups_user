@@ -1,5 +1,5 @@
-# Redmine plugin to add custom field to each user in Groups
-This plugin add custom field to each user in Groups.  
+# Redmine plugin to add custom field to each user in group
+This plugin add custom field to each user in group.  
 ![1 Select Type](1-select-type.png)  
 ![2 Input Custom Field](2-input-customfield.png)
 
@@ -10,7 +10,10 @@ Then you can edit this custom field at Users tab in group view.
 ![4 Edit Custom Field](4-edit-customfield.png)
 
 To get custom field with REST API, add "user_cf" to parameter.  
-![5 No Custom Field](5-rest-no-cf.png)
+ex. No Custom Field  
+![5 No Custom Field](5-rest-no-cf.png)  
+
+ex. With Custom Field
 ![6 With Custom Field](6-rest-with-cf.png)
 
 # Compatibility
